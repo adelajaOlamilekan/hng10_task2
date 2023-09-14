@@ -8,7 +8,7 @@ def create_person(person: schemas.PersonBase, db: Session):
     db.add(db_person)
     db.commit()
     
-def get_person(db: Session, user: int | str = Path(title="The ID or name of the user")):
+def get_person(db: Session, user):
     if user.isdigit():
         person = db.query(models.Persons).filter(models.Persons.id == int(user)).first()
     else:
@@ -20,7 +20,7 @@ def get_person(db: Session, user: int | str = Path(title="The ID or name of the 
     
     return person
 
-def update_person(updated_person: schemas.PersonBase,   db: Session, user:int |str = Path(title="The ID or name of the user")):
+def update_person(updated_person: schemas.PersonBase,   db: Session, user):
     if user.isdigit():
         person = db.query(models.Persons).filter(models.Persons.id == int(user)).first()
     else:
@@ -32,7 +32,7 @@ def update_person(updated_person: schemas.PersonBase,   db: Session, user:int |s
     person.name = updated_person.name.lower()
     db.commit()
 
-def delete_person(db:Session, user:int |str = Path(title="The ID or name of the user")):
+def delete_person(db:Session, user):
     if user.isdigit():
         person = db.query(models.Persons).filter(models.Persons.id == int(user)).first()
     else:
