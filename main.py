@@ -37,7 +37,13 @@ async def create_person(person: schemas.PersonBase, db: db_dependency):
             }
     
     return response_json
-    
+
+@app.get("/api")
+async def get_person(db: db_dependency):
+    persons = db.query(models.Persons).all()
+
+    return persons
+
 @app.get('/api/{user}')
 async def get_person(db: db_dependency, user):
     if user.isdigit():
