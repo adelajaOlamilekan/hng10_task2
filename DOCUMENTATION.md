@@ -79,7 +79,7 @@ Here are some examples of how to use the API:
 
 ### 1\. Create a Person
 
-- `POST /api/   Content-Type: application/json`
+- `POST /api   Content-Type: application/json`
 
 ```javascript
 {  
@@ -101,7 +101,7 @@ Here are some examples of how to use the API:
 
 ### 2\. Get All Persons
 
-- `GET /api/`
+- `GET /api`
 - Responses:
 
 >Status code: 200
