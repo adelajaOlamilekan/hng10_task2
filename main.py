@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 import schemas
 from database import SessionManager, engine
 from datetime import datetime
+from sqlalchemy import asc
 
 
 app = FastAPI()
@@ -32,7 +33,6 @@ async def create_person(person: schemas.PersonBase, db: db_dependency):
     response_json = {
                 "name": person.name,
                 "date_created": current_time_utc,
-                "last_updated": current_time_utc,
                 "message": "Person Created Successfuly"
             }
     
@@ -40,7 +40,7 @@ async def create_person(person: schemas.PersonBase, db: db_dependency):
 
 @app.get("/api")
 async def get_person(db: db_dependency):
-    persons = db.query(models.Persons).all()
+    persons = db.query(models.Persons).order_by(asc(models.Persons.id)).all()
 
     return persons
 
