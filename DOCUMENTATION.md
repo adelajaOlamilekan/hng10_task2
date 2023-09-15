@@ -10,17 +10,17 @@ Detailed information about each **endpoints** can be found below.
 
 ## Table of Contents
 
-- [Getting Started]()
+- [Getting Started]
 - [Endpoints]()
-    - [1. Create a Person]()
-    - [2. Get All Persons]()
-    - [3. Get a Person by ID]()
-    - [4. Update a Person]()
-    - [5. Delete a Person]()
-- [Request and Response Examples]()
-- [Validation]()
-- [Limitation of the API]()
-- [Contact Information]()
+    - [1. Create a Person]
+    - [2. Get All Persons]
+    - [3. Get a Person by ID]
+    - [4. Update a Person]
+    - [5. Delete a Person]
+- [Request and Response Examples]
+- [Validation]
+- [Limitation of the API]
+- [Contact Information]
     
 
 ## Getting Started
@@ -187,7 +187,7 @@ Here are some examples of how to use the API:
 {  
     "error": " user not in database",
 }
-
+```
 ---
 
 ## Validation
