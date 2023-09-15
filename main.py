@@ -34,11 +34,11 @@ async def create_person(person: schemas.PersonBase, db: db_dependency):
                 "date_created": current_time_utc,
                 "last_updated": current_time_utc,
                 "message": "Person Created Successfuly"
-        }
+            }
     
     return response_json
     
-@app.get('/api/{user}', response_model=schemas.ResponsePersonBase)
+@app.get('/api/{user}')
 async def get_person(db: db_dependency, user):
     if user.isdigit():
         person = db.query(models.Persons).filter(models.Persons.id == int(user)).first()
@@ -49,7 +49,12 @@ async def get_person(db: db_dependency, user):
     if not person:
         raise HTTPException(status_code=404, detail="user not in database")
     
-    return person
+    response_json = {
+                "id": person.id,
+                "name": person.name                
+            }
+    
+    return response_json
 
 @app.patch("/api/{user}")
 async def update_person(updated_person: schemas.PersonBase,   db: db_dependency, user):
@@ -71,7 +76,7 @@ async def update_person(updated_person: schemas.PersonBase,   db: db_dependency,
                 "name": person.name,
                 "last_updated": current_time_utc,
                 "message": f"Name updated to {person.name} successfuly"
-        }
+            }
     
     return response_json
 
@@ -90,6 +95,6 @@ async def delete_person(db:db_dependency, user):
 
     response_json = {
                         "message": "Deleted successfully"
-                }
+                    }
     
     return response_json
