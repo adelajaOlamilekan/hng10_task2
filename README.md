@@ -4,7 +4,7 @@
 
 Before you proceed, make sure you have the following prerequisites installed on your development environment:
 
-1. **PYTHON**: Run this command `python --version` to check you have Python installed on your machine. Download and install Python on your machine here: https://www.python.org/downloads/. 
+1. **PYTHON**: Run this command `python --version` to check you have Python installed on your machine. Otherwise, Download and install Python on your machine here: https://www.python.org/downloads/. 
 
 2. **Database**: FastAPI supports multiple database systems, including PostgreSQL, MySQL, SQLite, Oracle, Microsoft SQL Server, etc. Ensure you have one of these databases installed and configured. PostgreSQL was used for this project. Download and install Postgres here: https://www.postgresql.org/download/
 
