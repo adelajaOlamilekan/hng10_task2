@@ -11,7 +11,7 @@ Detailed information about each **endpoints** can be found below.
 ## Table of Contents
 
 - [Getting Started]
-- [Endpoints]()
+- [Endpoints]
     - [1. Create a Person]
     - [2. Get All Persons]
     - [3. Get a Person by ID]
