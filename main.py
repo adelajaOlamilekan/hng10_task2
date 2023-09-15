@@ -27,7 +27,7 @@ async def create_person(person: schemas.PersonBase, db: db_dependency):
     db_person = models.Persons(name=person.name.lower())
     db.add(db_person)
     db.commit()
-    current_time_utc = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
+    current_time_utc = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
 
     response_json = {
                 "name": person.name,
@@ -65,7 +65,7 @@ async def update_person(updated_person: schemas.PersonBase,   db: db_dependency,
     person.name = updated_person.name.lower()
     db.commit()
 
-    current_time_utc = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
+    current_time_utc = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
 
     response_json = {
                 "name": person.name,
