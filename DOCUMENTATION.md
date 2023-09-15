@@ -207,4 +207,4 @@ While the provided Persons API serves as a basic CRUD example, it has certain li
 
 ## Contact Information
 
-For inquiry promotion or support, contact RahmanAkorede at adexolamilekan46@gmail.com
+For inquiry, promotion or support, contact Adelaja Qowiyyu at adexolamilekan46@gmail.com
