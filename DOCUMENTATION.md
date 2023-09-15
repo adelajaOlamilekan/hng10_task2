@@ -36,14 +36,14 @@ The API provides the following endpoints for managing the persons resource:
 - **Endpoint**: `POST /api`
 - **Description**: This creates a new person.
 - **Headers**: `Content-Type: application/json Accept: application/json`
-- **Request Body**: JSON object with person information, such as `name` .
-- **Response**: JSON object of the created person with an auto-generated `id`.
+- **Request Body**: JSON object with person information i.e `name`.
+- **Response**: JSON object of the created person with date_created and message to indicate success.
     
 
 ### 2\. Get All Persons
 
 - **Endpoint**: `GET /api`
-- **Description** : This returns records of all persons.
+- **Description**: This returns records of all persons in the database.
 - **Headers**: `Content-Type: application/json Accept: application/json`
 - **Response**: JSON array of all persons in the database.
     
@@ -51,9 +51,9 @@ The API provides the following endpoints for managing the persons resource:
 ### 3\. Get a Person by ID
 
 - **Endpoint**: `GET /api/{user_id}`
-- **Description** : This returns the details of a single person.
+- **Description**: This returns the details of a single person.
 - **Headers**: `Content-Type: application/json Accept: application/json`
-- **Response**: JSON object of the person with the specified `id` or customized error message **(404)** if person not found.
+- **Response**: JSON object of the person with the specified `id` and person `name'. Otherwise customized error message **(404)** if person not found.
     
 
 ### 4\. Update a Person
@@ -62,7 +62,7 @@ The API provides the following endpoints for managing the persons resource:
 - **Description** : This updates/edits the resource
 - **Headers**: `Content-Type: application/json Accept: application/json`
 - **Request Body**: JSON object with updated person information, such as `name`.
-- **Response**: JSON object of the updated person or customized error message **(404)** if person not found.
+- **Response**: JSON object of the updated person with update_date and success message. Otherwise customized error message **(404)** if person not found.
     
 
 ### 5\. Delete a Person
@@ -70,7 +70,7 @@ The API provides the following endpoints for managing the persons resource:
 - **Endpoint**: `DELETE /api/{user_id}`
 - **Description** : This deletes a resource
 - **Headers**: `Content-Type: application/json Accept: application/json`
-- **Response**: JSON object of success message confirming the deletion.
+- **Response**: JSON object of success message confirming the deletion. Otherwise customized error message **(404)** if person not found. 
     
 
 ## Request and Response Examples
@@ -83,7 +83,10 @@ Here are some examples of how to use the API:
 
 ```javascript
 {  
-    "name": "Dominic Toretto",
+    "name": "Jeffery Komolafe",
+    "date_created": "current UTC time",
+    "last_updated": "current UTC time",
+    "message": "Person Created Successfuly"
 }
 ```
 - Responses: 
@@ -92,8 +95,8 @@ Here are some examples of how to use the API:
 
 ```javascript
 {  
-    "id":1,
-    "name": "Dominic Toretto"
+    "id":20,
+    "name": "Jeffery Komolafe"
 }
 ```
 
@@ -107,12 +110,12 @@ Here are some examples of how to use the API:
 ```javascript
 [
     {  
-        "id" : 1,
-        "name" : "Akorede Lamidi",
+        "id" : 20,
+        "name" : "Jeffery Komolafe",
     },
     {  
         "id" : 2,
-        "name" : "Ifekunle",
+        "name" : "Adekunle",
     },   // More persons...
 ] 
 ```
@@ -120,15 +123,15 @@ Here are some examples of how to use the API:
 
 ### 3\. Get a Person by ID
 
-- `GET /api/1`
+- `GET /api/20` or `GET /api/Jeffery Komolafe`
 - Responses:
 
 >Status code: 200
 
 ```javascript
 {  
-    "id" : 1,
-    "name" : "Akorede Lamidi"
+    "id" : 20,
+    "name" : "Jeffery Komolafe"
 }
 ```
 
@@ -136,25 +139,27 @@ Here are some examples of how to use the API:
 
 ```javascript
 {  
-    "error" : "Record not found!"
+    "detail" : "user not in database"
 }
 ```
 ### 4\. Update a Person
 
-- `PUT /api/1  Content-Type: application/json`      
+- `PUT /api/2 Content-Type: application/json` or `PUT /api/Adekunle Content-Type: application/json`      
 - Request body:
 
 ```javascript
 {
-    "name" : "Akorede Gabriel"
+    "name" : "Adekunle Ciroma"
 }
 ```
 
 >Response: 200
 
 ```javascript
-{  
-    "message" : " Record updated!",
+{
+    "name": "Adekunle Ciroma",
+    "last_updated": "current UTC time ",
+    "message": "Name updated to Adekunle Ciroma successfuly"
 }
 ```
 
@@ -162,20 +167,26 @@ Here are some examples of how to use the API:
     
  ```javascript
 {  
-    "error" : " Record not found!",
+    "error" : " user not in database",
 }
 ```
 ### 5\. Delete a Person
 
-- `DELETE /api/1`
+- `DELETE /api/2` or `DELETE /api/Adekunle Ciroma`
 
 >Response: 200
 
 ```javascript
 {
-    "message": "Person with ID 1 has been deleted."
+    "message": "Deleted successfully"
 }
 ```
+>Response: 404
+    
+ ```javascript
+{  
+    "error": " user not in database",
+}
 
 ---
 
@@ -186,12 +197,14 @@ The API includes basic validation rules for request data. Ensure your requests f
 
 ## Limitations of the API
 
-While the provided Person API serves as a basic CRUD example, it has certain limitations that may need to be addressed depending on your project requirements:
+While the provided Persons API serves as a basic CRUD example, it has certain limitations that may need to be addressed depending on your project requirements:
 
-1. **Authentication and Authorization**: The API lacks authentication and authorization mechanisms. It assumes that all users have access to all endpoints. In a real-world scenario, you would need to implement proper authentication and authorization to restrict access based on user roles and permissions.
+1. **Authentication and Authorization**: The API lacks authentication and authorization mechanisms. It assumes that all users have access to all endpoints. In a practical sense, you would need to implement proper authentication and authorization to restrict access based on user roles and permissions.
+
 2. **Validation**: Although the API includes basic validation rules, it may not cover all potential input scenarios. Custom validation rules for specific data constraints may be required.
+
 3. **Error Handling**: While the API provides error messages and HTTP status codes, the error messages may not always provide detailed information for debugging. Enhanced error handling and logging may be needed for production use.
 
 ## Contact Information
 
-For inquiry promotion or support, contact RahmanAkorede at rahmanakorede442@gmail.com or +2347012803737
+For inquiry promotion or support, contact RahmanAkorede at adexolamilekan46@gmail.com
