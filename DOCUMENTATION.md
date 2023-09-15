@@ -83,10 +83,7 @@ Here are some examples of how to use the API:
 
 ```javascript
 {  
-    "name": "Jeffery Komolafe",
-    "date_created": "current UTC time",
-    "last_updated": "current UTC time",
-    "message": "Person Created Successfuly"
+    "name": "Jeffery Komolafe"
 }
 ```
 - Responses: 
@@ -95,8 +92,10 @@ Here are some examples of how to use the API:
 
 ```javascript
 {  
-    "id":20,
     "name": "Jeffery Komolafe"
+    "date_created": current UTC time,
+    "last_updated": current UTC time,
+    "message": "Person Created Successfuly"
 }
 ```
 
