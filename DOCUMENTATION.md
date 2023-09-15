@@ -157,7 +157,7 @@ Here are some examples of how to use the API:
 ```javascript
 {
     "name": "Adekunle Ciroma",
-    "last_updated": "current UTC time ",
+    "last_updated": current UTC time,
     "message": "Name updated to Adekunle Ciroma successfuly"
 }
 ```
