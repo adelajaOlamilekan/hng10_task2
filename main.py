@@ -1,9 +1,10 @@
-from fastapi import FastAPI, Depends, Path
+from fastapi import FastAPI, Depends, HTTPException
 from fastapi.dependencies.utils import Annotated
 import models
 from sqlalchemy.orm import Session
-import crud, schemas
+import schemas
 from database import SessionManager, engine
+from datetime import datetime
 
 
 app = FastAPI()
@@ -21,19 +22,74 @@ def get_db():
 db_dependency = Annotated[Session, Depends(get_db)]
 
 #Creating the endpoint to add a new person
-@app.post("/api")
+@app.post("/api", status_code=201)
 async def create_person(person: schemas.PersonBase, db: db_dependency):
-    crud.create_person(db=db, person=person)
+    db_person = models.Persons(name=person.name.lower())
+    db.add(db_person)
+    db.commit()
+    current_time_utc = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
 
+    response_json = {
+                "name": person.name,
+                "date_created": current_time_utc,
+                "last_updated": current_time_utc,
+                "message": "Person Created Successfuly"
+        }
     
-@app.get('/api/{user}')
+    return response_json
+    
+@app.get('/api/{user}', response_model=schemas.ResponsePersonBase)
 async def get_person(db: db_dependency, user):
-    crud.get_person(db=db, user=user)
+    if user.isdigit():
+        person = db.query(models.Persons).filter(models.Persons.id == int(user)).first()
+    else:
+        person = db.query(models.Persons).filter(models.Persons.name == user.lower()).first()
+    
+
+    if not person:
+        raise HTTPException(status_code=404, detail="user not in database")
+    
+    return person
 
 @app.patch("/api/{user}")
 async def update_person(updated_person: schemas.PersonBase,   db: db_dependency, user):
-    crud.update_person(updated_person=updated_person, db=db, user=user)
+    if user.isdigit():
+        person = db.query(models.Persons).filter(models.Persons.id == int(user)).first()
+    else:
+        person = db.query(models.Persons).filter(models.Persons.name == user.lower()).first()
 
-@app.delete("/api/{user}")
+    if not person:
+        raise HTTPException(status_code=404, detail="user not in database")
+    
+    old_name = person.name
+    person.name = updated_person.name.lower()
+    db.commit()
+
+    current_time_utc = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
+
+    response_json = {
+                "name": person.name,
+                "last_updated": current_time_utc,
+                "message": f"Name updated to {person.name} successfuly"
+        }
+    
+    return response_json
+
+@app.delete("/api/{user}", status_code=200)
 async def delete_person(db:db_dependency, user):
-    crud.delete_person(db=db, user=user)
+    if user.isdigit():
+        person = db.query(models.Persons).filter(models.Persons.id == int(user)).first()
+    else:
+        person = db.query(models.Persons).filter(models.Persons.name == user.lower()).first()
+
+    if not person:
+        raise HTTPException(status_code=404, detail="user not in database")
+    
+    db.delete(person)
+    db.commit()
+
+    response_json = {
+                        "message": "Deleted successfully"
+                }
+    
+    return response_json
